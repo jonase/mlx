@@ -4,7 +4,7 @@ Short and simple Clojure programs with accompanying explanations in the wiki sec
 
 ## Programs
 
-Jun 17, 2011 [Clojure is winning the lottery]()
+Jun 17, 2011 [Clojure is winning the lottery](https://github.com/jonase/mlx/wiki/Lottery)
 
 ## License
 
