@@ -1,6 +1,6 @@
 # mlx
 
-Short and simple Clojure programs with accompanying explanations in the wiki section. Intended as a learning resource.
+Short and simple Clojure programs with accompanying explanations in the wiki section. Intended as a learning resource. Use the github bug tracker to report bugs. Fork the project if you want to play with the programs.
 
 ## Programs
 
