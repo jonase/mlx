@@ -4,7 +4,8 @@ Short and simple Clojure programs with accompanying explanations in the wiki sec
 
 ## Programs
 
-Jun 17, 2011 [Clojure is winning the lottery](https://github.com/jonase/mlx/wiki/Lottery)
+* Jun 17, 2011 [Clojure is winning the lottery](https://github.com/jonase/mlx/wiki/Lottery)
+* Jun 19, 2011 [ISO 216, Recursion and Higher Order Functions](https://github.com/jonase/mlx/wiki/A4)
 
 ## License
 
