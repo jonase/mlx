@@ -1,6 +1,6 @@
-(ns mlx.comptags
+(ns mlx.stack.comptags
   (:use
-   [mlx.attseq :only [attribute-seq]]
+   [mlx.stack.attseq :only [attribute-seq]]
    [clojure.set :only [intersection select]]
    [clojure.pprint :only [print-table]]
    [clojure.java.io :only [input-stream]])

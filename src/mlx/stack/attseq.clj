@@ -1,4 +1,4 @@
-(ns mlx.attseq
+(ns mlx.stack.attseq
   (:import
    [java.io InputStream]
    [javax.xml.stream XMLInputFactory XMLStreamReader]))
