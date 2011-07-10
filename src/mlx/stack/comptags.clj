@@ -46,6 +46,7 @@
      (element-count (constantly true) sets))
   ([pred sets]
      (reduce #(merge-with + %1 %2)
+	     {}
 	     (map (fn [set] (into {} (map #(vector % 1) (select pred set))))
 		  sets))))
 
