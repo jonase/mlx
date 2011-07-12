@@ -30,8 +30,6 @@
 (defn question-seq [input-stream]
   (attribute-seq input-stream question? parse-question))
 
-;; Can this be written as a one-liner with HOFs?
-;; Exercise: Rewrite with drop-while
 (defn monotonic-inc-by [key coll]
   (lazy-seq
    (let [[x y & more] coll]
@@ -45,10 +43,9 @@
   ([sets]
      (element-count (constantly true) sets))
   ([pred sets]
-     (reduce #(merge-with + %1 %2)
-	     {}
-	     (map (fn [set] (into {} (map #(vector % 1) (select pred set))))
-		  sets))))
+     (->> sets
+	  (map (comp frequencies #(select pred %)))
+	  (reduce #(merge-with + %1 %2) {}))))
 
 (defn tagged [& tags]
   (fn [question]
