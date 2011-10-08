@@ -9,6 +9,7 @@ Short and simple Clojure programs with accompanying explanations in the wiki sec
 * July 3, 2011 [Analyzing Stack Overflow data](https://github.com/jonase/mlx/wiki/Analyzing-Stack-Overflow-data)
 * July 7, 2011 [A simple graph algorithm on a RISK game board](https://github.com/jonase/mlx/wiki/A-simple-graph-algorithm-on-a-RISK-game-board)
 * August 27, 2011 [Reading csv files with data.csv](https://github.com/jonase/mlx/wiki/Reading-csv-files-with-data.csv)
+* September 1, 2011 [Animating Bezier curves with ClojureScript](https://github.com/jonase/mlx/wiki/Animating-Bezier-curves-in-ClojureScript) (animation [here](http://jonase.github.com/mlx/bezier.html))
 
 ## License
 
