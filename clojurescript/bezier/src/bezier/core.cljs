@@ -1,6 +1,14 @@
 (ns bezier.core
-  (:require [weft.canvas :as c]
-            [goog.dom :as dom]))
+  (:require [weft.canvas :as c])
+  (:use [clojure.browser.dom :only [get-element]]
+        [weft.canvas :only [lerp
+                            save restore
+                            set-fill-style set-stroke-style set-line-width
+                            begin-path fill stroke
+                            move-to line-to quadratic-curve-to bezier-curve-to
+                            circle clear-rect
+                            context
+                            request-animation-frame]]))
 
 (def p1 [20 200])
 (def p2 [140 20])
@@ -9,41 +17,42 @@
 
 (defn draw-points [ctx points r color]
   (doto ctx
-    c/save
-    (c/set-fill-style color))
+    save
+    (set-fill-style color))
   (doseq [p points]
     (doto ctx
-      c/begin-path
-      (c/move-to p)
-      (c/circle p r)
-      c/fill))
-  (c/restore ctx))
+      begin-path
+      (move-to p)
+      (circle p r)
+      fill))
+  (restore ctx))
 
-(doto (c/context (dom/getElement "bg-quad-canvas"))
-  c/begin-path
-  (c/move-to p1)
-  (c/line-to p2)
-  (c/line-to p3)
-  c/stroke
+(doto (context (get-element "bg-quad-canvas"))
+  begin-path
+  (move-to p1)
+  (line-to p2)
+  (line-to p3)
+  stroke
   (draw-points [p1 p2 p3] 3 "black"))
 
-(doto (c/context (dom/getElement "bg-cubic-canvas"))
-  c/begin-path
-  (c/move-to p1)
-  (c/line-to p2)
-  (c/line-to p3)
-  (c/line-to p4)
-  c/stroke
+(doto (context (get-element "bg-cubic-canvas"))
+  begin-path
+  (move-to p1)
+  (line-to p2)
+  (line-to p3)
+  (line-to p4)
+  stroke
   (draw-points [p1 p2 p3 p4] 3 "black"))
   
-(def quad-ctx  (c/context (dom/getElement "anim-quad-canvas")))
-(def cubic-ctx (c/context (dom/getElement "anim-cubic-canvas")))
+(def quad-ctx  (context (get-element "anim-quad-canvas")))
+(def cubic-ctx (context (get-element "anim-cubic-canvas")))
 
 (defn make-ticker [step]
   (let [t (atom 0)
         d (atom 1)]
     (fn []
-      (when-not (<= 0 @t 1)
+      (when (or (> @t 1)
+                (< @t 0))
         (swap! d * -1))
       (swap! t + (* step @d)))))
 
@@ -52,71 +61,71 @@
 
 (defn render-quad []
   (let [t (quad-tick)
-        p (c/lerp p1 p2 t)
-        q (c/lerp p2 p3 t)
-        x (c/lerp p q t)]
+        p (lerp p1 p2 t)
+        q (lerp p2 p3 t)
+        x (lerp p q t)]
     (doto quad-ctx
-      c/save
-      c/clear-rect
+      save
+      clear-rect
 
-      (c/set-line-width 2)
-      (c/set-stroke-style "red")
+      (set-line-width 2)
+      (set-stroke-style "red")
 
-      c/begin-path
-      (c/move-to p1)
-      (c/quadratic-curve-to p x)
-      c/stroke
+      begin-path
+      (move-to p1)
+      (quadratic-curve-to p x)
+      stroke
 
-      (c/set-line-width 1)
-      (c/set-stroke-style "black")
+      (set-line-width 1)
+      (set-stroke-style "black")
       
-      c/begin-path
-      (c/move-to p)
-      (c/line-to q)
-      c/stroke
+      begin-path
+      (move-to p)
+      (line-to q)
+      stroke
       
       (draw-points [p q] 3 "black")
       (draw-points [x] 4 "red")
 
-      c/restore))
-  (c/request-animation-frame render-quad))
+      restore))
+  (request-animation-frame render-quad))
 
 (defn render-cubic []
   (let [t (cubic-tick)
-        p (c/lerp p1 p2 t)
-        q (c/lerp p2 p3 t)
-        r (c/lerp p3 p4 t)
-        u (c/lerp p q t)
-        v (c/lerp q r t)
-        x (c/lerp u v t)]
+        p (lerp p1 p2 t)
+        q (lerp p2 p3 t)
+        r (lerp p3 p4 t)
+        u (lerp p q t)
+        v (lerp q r t)
+        x (lerp u v t)]
     
     (doto cubic-ctx
-      c/save
-      c/clear-rect
+      save
+      clear-rect
       
-      (c/set-line-width 2)
-      (c/set-stroke-style "red")
+      (set-line-width 2)
+      (set-stroke-style "red")
 
-      c/begin-path
-      (c/move-to p1)
-      (c/bezier-curve-to p u x)
-      c/stroke
+      begin-path
+      (move-to p1)
+      (bezier-curve-to p u x)
+      stroke
 
-      (c/set-line-width 1)
-      (c/set-stroke-style "black")
+      (set-line-width 1)
+      (set-stroke-style "black")
 
-      c/begin-path
-      (c/move-to p)
-      (c/line-to q)
-      (c/line-to r)
-      (c/move-to u)
-      (c/line-to v)
-      c/stroke
+      begin-path
+      (move-to p)
+      (line-to q)
+      (line-to r)
+      (move-to u)
+      (line-to v)
+      stroke
       
       (draw-points [p q r u v] 3 "black")
       (draw-points [x] 4 "red")
-      c/restore))
-  (c/request-animation-frame render-cubic))
+      restore))
+  (request-animation-frame render-cubic))
 
 (defn ^:export start []
   (render-quad)
